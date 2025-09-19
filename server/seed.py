@@ -14,11 +14,12 @@ if "Duane" not in usernames:
     usernames.append("Duane")
 
 def make_messages():
-
+    print("Clearing existing messages...")
     Message.query.delete()
     
     messages = []
-
+    print("Creating 20 new messages...")
+    
     for i in range(20):
         message = Message(
             body=fake.sentence(),
@@ -27,7 +28,8 @@ def make_messages():
         messages.append(message)
 
     db.session.add_all(messages)
-    db.session.commit()        
+    db.session.commit()
+    print(f"Successfully created {len(messages)} messages!")        
 
 if __name__ == '__main__':
     with app.app_context():

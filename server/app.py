@@ -30,10 +30,13 @@ def messages():
 @app.route('/messages/<int:id>', methods=['PATCH', 'DELETE'])
 def messages_by_id(id):
     message = Message.query.filter_by(id=id).first()
+    if not message:
+        return jsonify({'error': 'Message not found'}), 404
     
     if request.method == 'PATCH':
         data = request.get_json()
-        message.body = data['body']
+        if 'body' in data:
+            message.body = data['body']
         db.session.commit()
         return jsonify(message.to_dict())
     
